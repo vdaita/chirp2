@@ -135,5 +135,10 @@ export default StyleSheet.create({
       alignSelf: 'flex-end',
       height: 64,
       width: 64
+    },
+    bottom: {
+        position: 'absolute',
+        height: 40,
+        bottom: 0
     }
 });

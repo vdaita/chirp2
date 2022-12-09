@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
-import { Modal, FlatList, StyleSheet, Text, View, TextInput, SafeAreaView, TouchableOpacity } from 'react-native';
-import { supabase } from './../lib/supabase';
-import PostView from '../PostView';
-import UserProfile from './../screens/UserProfile';
+import {StyleSheet, Text, TouchableOpacity, TextInput, View} from 'react-native';
+import styles from './styles';
+import {useState, useEffect} from 'react';
 
 export default function SearchUsers() {
 
