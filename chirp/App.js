@@ -2,10 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 
 import { useEffect, useState } from 'react';
 import { Modal, FlatList, StyleSheet, Text, View, TextInput, SafeAreaView, TouchableOpacity } from 'react-native';
-import UserProfile from './components/screens/UserProfile';
 import styles from './components/screens/styles';
 import { supabase } from './lib/supabase';
-import PostView from './component/screens/PostView';
 import SwitchSelector from "react-native-switch-selector";
 import Toast from 'react-native-toast-message';
 import Icon from 'react-native-vector-icons/Feather';
@@ -52,8 +50,8 @@ export default function App() {
         <CreatePost/>
       }
       {
-        currentScreen == "profile" &&
-        <UserProfile/>
+        currentScreen == "settings" &&
+        <Settings/>
       }
       <View style={styles.bottom}>
         <View style={styles.row}>
@@ -67,10 +65,11 @@ export default function App() {
             onPress={() => setCurrentScreen("create")}
           />
           <Icon
-            onPress={() => setCurrentScreen("profile")}
+            onPress={() => setCurrentScreen("settings")}
           />
         </View>
       </View>
+      <Toast/>
     </View>
   );
 }

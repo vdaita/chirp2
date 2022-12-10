@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Modal, FlatList, StyleSheet, Image, Text, View, TextInput, SafeAreaView, TouchableOpacity } from 'react-native';
-import { supabase } from './../lib/supabase';
+import { supabase } from './../../lib/supabase';
 import * as ImagePicker from 'expo-image-picker';
 import styles from './styles';
 
@@ -23,24 +23,6 @@ export default function CreatePost(){
             
         });
 
-    }
-
-    let pickImage = () => {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1
-      });
-      console.log(result);
-      setPostContent(result.assets[0].uri);
-    }
-
-    let uploadImage = () => {
-        supabase
-            .storage
-            .from('posts')
-            .upload()
     }
 
     let post = () => {

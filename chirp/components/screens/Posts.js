@@ -1,9 +1,9 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native';
-import styles from '../styles';
+import styles from '../../styles';
 import SwitchSelector from "react-native-switch-selector";
 import { useEffect } from 'react';
-import { supabase } from '../lib/supabase';
-import PostView from '../components/PostView';
+import { supabase } from '../../lib/supabase';
+import PostView from './../PostView';
 
 export default function Posts(){
 
