@@ -1,35 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import {
-    IonButton,
-    IonContent,
-    IonHeader,
-    IonInput,
-    IonItem,
-    IonLabel,
-    IonList,
-    IonPage,
-    IonTitle,
-    IonToolbar,
-    IonText,
-    IonToggle,
-    useIonToast,
-    useIonLoading,
-    IonCol,
-    IonRow
-} from '@ionic/react';
+    Button,
+    Container,
+    List,
+    ListItem,
+    VStack,
+    HStack,
+    Box,
+    Input,
+    Text,
+    Heading,
+    useToast
+} from '@chakra-ui/react';
 import { supabase } from '../supabaseClient';
-import { RouteComponentProps } from 'react-router';
-import { NavLink } from 'react-router-dom';
+import { 
+    createBrowserRouter,
+    RouterProvider
+ } from 'react-router-dom';
 
-interface UserDetailProfileProps extends RouteComponentProps<{
-    username: string;
-}>{}
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <div></div>
+    }
+])
 
-const UserDetailProfile: React.FC<UserDetailProfileProps> = ({match}) => {
+export function UserDetailProfile(){
     const [posts, setPosts] = useState<any[]>([]);
     const [information, setUserInformation] = useState<any>();
 
-    const [showToast] = useIonToast();
+    const showToast = useToast();
 
     useEffect(() => {
         getUserInformation();
@@ -81,17 +81,17 @@ const UserDetailProfile: React.FC<UserDetailProfileProps> = ({match}) => {
     }
 
     return (
-        <IonPage>
-            <IonHeader>
-                <IonTitle>{information["username"]}</IonTitle>
-            </IonHeader>
-            <IonContent>
-                <IonText><h2>{information["bio"]}</h2></IonText>
-                <IonRow>
-                    {information["followed"] && <IonButton onClick={() => unfollowUser()}>Unfollow</IonButton>}
-                    {!information["followed"] && <IonButton onClick={() => followUser()}>Follow</IonButton>}
-                </IonRow>
-                <IonList inset={true}>
+        <Container>
+            <Heading>
+                {information["username"]}
+            </Heading>
+            <Box>
+                <Text><h2>{information["bio"]}</h2></Text>
+                <HStack>
+                    {information["followed"] && <Button onClick={() => unfollowUser()}>Unfollow</Button>}
+                    {!information["followed"] && <Button onClick={() => followUser()}>Follow</Button>}
+                </HStack>
+                <List>
                     {
                         posts.map(post => {
                             return (
@@ -107,9 +107,9 @@ const UserDetailProfile: React.FC<UserDetailProfileProps> = ({match}) => {
                             )
                         })
                     }
-                </IonList>
-            </IonContent>
-        </IonPage>
+                </List>
+            </Box>
+        </Container>
     )
 }
 

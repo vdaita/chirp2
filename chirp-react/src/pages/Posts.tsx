@@ -1,29 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import {
-    IonButton,
-    IonContent,
-    IonHeader,
-    IonInput,
-    IonItem,
-    IonLabel,
-    IonList,
-    IonPage,
-    IonTitle,
-    IonToolbar,
-    IonText,
-    IonToggle,
-    IonRow,
-    useIonToast,
-    useIonLoading,
-    IonCol
-} from '@ionic/react';
+    Button,
+    Container,
+    Box,
+    Text,
+    VStack,
+    HStack,
+    List,
+    ListItem,
+    useToast
+} from '@chakra-ui/react';
 import { supabase } from '../supabaseClient';
 
 export function Posts(){
     const [posts, setPosts] = useState<any[]>([]);
     const [source, setSource] = useState("recent");
 
-    const [showToast] = useIonToast();
+    const showToast = useToast();
 
     useEffect(() => {
         getPosts("recent");
@@ -37,7 +30,7 @@ export function Posts(){
             }
             setPosts(data)
             if(error != null){
-                await showToast({message: error.message, duration: 5000});
+                showToast({title: error.message, duration: 5000});
             }
             setSource("recent")
         } else {
@@ -47,7 +40,7 @@ export function Posts(){
             }
             setPosts(data);
             if(error != null){
-                await showToast({message: error.message, duration: 5000});
+                showToast({title: error.message, duration: 5000});
             }
             setSource("following")
         }
@@ -66,52 +59,52 @@ export function Posts(){
     }
 
     return (
-        <IonContent>
-            <IonText>
+        <Container>
+            <Text>
                 <h2>{source == "recent" ? "Recent" : "Following"}</h2>
-            </IonText>
-            <IonRow>
+            </Text>
+            <HStack>
                 <div className="ion-padding">
                     {source == "recent" && 
                         <form onSubmit={switchToFollowing}>
-                            <IonButton type="submit" fill="outline">Switch to Following</IonButton>
+                            <Button type="submit" fill="outline">Switch to Following</Button>
                         </form>
                     }
                     {source == "following" &&
                         <form onSubmit={switchToRecent}>
-                            <IonButton type="submit" fill="outline">Switch to Recent</IonButton>
+                            <Button type="submit" fill="outline">Switch to Recent</Button>
                         </form>
                     }
                 </div>
                 <div className="ion-padding">
                     <form onSubmit={source == "recent" ? switchToRecent : switchToFollowing}>
-                        <IonButton type="submit" fill="outline">Refresh</IonButton>
+                        <Button type="submit" fill="outline">Refresh</Button>
                     </form>
                 </div>
-            </IonRow>
+            </HStack>
 
-            {posts.length == 0 && <IonText>No posts found</IonText>}
-            <IonList inset={true}>
+            {posts.length == 0 && <Text>No posts found</Text>}
+            <List>
                 {
                     posts.map(post => {
                         return (
-                            <IonItem>
-                                <IonCol>
-                                    <IonText>
+                            <ListItem>
+                                <VStack>
+                                    <Text>
                                         <h3>{post["username"]}</h3>
-                                    </IonText>
-                                    <IonText>
+                                    </Text>
+                                    <Text>
                                         <h5>{post["created_at"]}</h5>
-                                    </IonText>
-                                    <IonText>
+                                    </Text>
+                                    <Text>
                                         {post["contents"]}
-                                    </IonText>
-                                </IonCol>
-                            </IonItem>
+                                    </Text>
+                                </VStack>
+                            </ListItem>
                         )
                     })
                 }
-            </IonList>
-        </IonContent>
+            </List>
+        </Container>
     )
 }

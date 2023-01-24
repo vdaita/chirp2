@@ -1,19 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-    IonButton,
-    IonContent,
-    IonHeader,
-    IonInput,
-    IonItem,
-    IonLabel,
-    IonList,
-    IonPage,
-    IonTitle,
-    IonToolbar,
-    IonToggle,
-    useIonToast,
-    useIonLoading
-} from '@ionic/react';
+import {Container, Button, Box, Input, Text, useToast} from '@chakra-ui/react';
 import { supabase } from '../supabaseClient';
 
 export function Settings(){
@@ -21,8 +7,7 @@ export function Settings(){
     const [initialBio, setInitialBio] = useState("");
     const [username, setUsername] = useState("");
 
-    const [showToast] = useIonToast();
-    const [showLoading, hideLoading] = useIonLoading();
+    const showToast = useToast();
 
     useEffect(() => {
         getUserData();
@@ -30,12 +15,10 @@ export function Settings(){
 
     const signUserOut = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        await showLoading();
         const {error} = await supabase.auth.signOut();
         if(error){
-            await showToast({message: error.message, duration: 5000});
+            showToast({title: error.message, duration: 5000});
         }
-        await hideLoading();
     }
 
     const getUserData = async() => {
@@ -45,7 +28,7 @@ export function Settings(){
                                     .eq("id", user?.id);
 
         if(error){
-            await showToast(error.message, 5000);
+            showToast({title: error.message, duration: 5000});
         } else {
             setUsername(data[0]["username"]);
             setInitialBio(data[0]["bio"]);
@@ -55,36 +38,34 @@ export function Settings(){
 
     const updateBio = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        await showLoading();
         
         const {data: {user}} = await supabase.auth.getUser();
         const {data, error} = await supabase.rpc("update_bio", {"user_id": user?.id, "new_bio": bio});
-        await hideLoading();
         if(error){
-            await showToast(error.message, 5000);
+            showToast({title: error.message, duration: 5000});
         }
     }
 
     return (
-        <IonContent>
+        <Container>
             <form onSubmit={updateBio}>
                 <h1>{username}</h1>
-                <IonInput value={initialBio}
+                <Input value={initialBio}
                         name={"bio"}
-                        onIonChange={(e) => setBio(e.detail.value ?? '')}
+                        onChange={(e) => setBio(e.target.value ?? '')}
                         type="text"/>
                 <div className="ion-text-center">
-                    <IonButton type="submit">
+                    <Button type="submit">
                         Update bio
-                    </IonButton>
+                    </Button>
                 </div>
             </form>
             
             <form onSubmit={signUserOut}>
-                <IonButton type="submit">
+                <Button type="submit">
                     Sign out
-                </IonButton>
+                </Button>
             </form>
-        </IonContent>
+        </Container>
     )
 }

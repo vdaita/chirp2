@@ -1,21 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
-    IonButton,
-    IonContent,
-    IonHeader,
-    IonInput,
-    IonItem,
-    IonLabel,
-    IonCol,
-    IonList,
-    IonPage,
-    IonTitle,
-    IonToolbar,
-    IonToggle,
-    useIonToast,
-    IonText,
-    useIonLoading
-} from '@ionic/react';
+    Container, Button, Input, Text, Box, VStack, useToast
+} from '@chakra-ui/react';
 import { supabase } from '../supabaseClient';
 
 export function Search(){
@@ -34,33 +20,33 @@ export function Search(){
     }
 
     return (
-        <IonContent>
+        <Container>
             <form onSubmit={search}>
-                <IonItem>
-                    <IonLabel position="stacked">Search Term</IonLabel>
-                    <IonInput
+                <Box>
+                    <Text>Search Term</Text>
+                    <Input
                             name={"query"}
-                            onIonChange={(e) => setQuery(e.detail.value ?? '')}
+                            onChange={(e) => setQuery(e.target.value ?? '')}
                             type="text"/>
-                    <IonButton type="submit" fill="clear">
+                    <Button type="submit" fill="clear">
                         Search
-                    </IonButton>
-                </IonItem>
+                    </Button>
+                </Box>
             </form>
             {users.map(user => {
                 return (
-                    <IonItem>
-                        <IonCol>
-                            <IonText>
+                    <Box>
+                        <VStack>
+                            <Text>
                                 <h3>{user["username"]}</h3>
-                            </IonText>
-                            <IonText>
+                            </Text>
+                            <Text>
                                 {user["bio"]}
-                            </IonText>
-                        </IonCol>
-                    </IonItem>
+                            </Text>
+                        </VStack>
+                    </Box>
                 )
             })}
-        </IonContent>
+        </Container>
     )
 }
