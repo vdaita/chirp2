@@ -93,10 +93,10 @@ export function Posts(){
                                     <Text>
                                         <h3>{post["username"]}</h3>
                                     </Text>
-                                    <Text>
+                                    <Text fontSize="sm">
                                         <h5>{post["created_at"]}</h5>
                                     </Text>
-                                    <Text>
+                                    <Text fontSize="md">
                                         {post["contents"]}
                                     </Text>
                                 </VStack>

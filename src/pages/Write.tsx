@@ -34,9 +34,8 @@ const Write: React.FC = () => {
         <Container>
             <form onSubmit={post}>
                 <Box>
-                    <Text>Content</Text>
-                    <Input type="text" value={content} 
-                        placeholder="Content" 
+                    <Textarea type="text" value={content} 
+                        placeholder="What are your musings?" 
                         onChange={(event) => {console.log(event)}}
                     />
 
